@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign-Up Form</title>
+  <style>
+    .error {
+      color: red;
+      font-size: 14px;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $("#signupForm").submit(function (event) {
+        // Reset previous error messages
+        $(".error").text("");
+
+        // Perform validation
+        if (!isValidUsername($("#username").val())) {
+          $("#usernameError").text("Invalid username. It should start with a letter and consist of only alphanumeric characters and underscores.");
+          event.preventDefault();
+        }
+
+        if (!isValidPassword($("#password").val())) {
+          $("#passwordError").text("Invalid password. It should be at least 6 characters long and include one lowercase letter, one uppercase letter, and one number.");
+          event.preventDefault();
+        }
+
+        if ($("#password").val() !== $("#repassword").val()) {
+          $("#repasswordError").text("Passwords do not match.");
+          event.preventDefault();
+        }
+
+        if (!isValidBirthYear($("#birthYear").val())) {
+          $("#birthYearError").text("Invalid birth year. It should consist of exactly 4 digits.");
+          event.preventDefault();
+        }
+
+        if (!isValidPostalCode($("#postalCode").val())) {
+          $("#postalCodeError").text("Invalid postal code. It should consist of 6 alphanumeric characters.");
+          event.preventDefault();
+        }
+      });
+
+      function isValidUsername(username) {
+        // Username should start with a letter and consist of only alphanumeric characters and underscores
+        return /^[a-zA-Z][a-zA-Z0-9_]*$/.test(username);
+      }
+
+      function isValidPassword(password) {
+        // Password should be at least 6 characters long and include one lowercase letter, one uppercase letter, and one number
+        return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/.test(password);
+      }
+
+      function isValidBirthYear(birthYear) {
+        // Birth year is 4 digits
+        return /^\d{4}$/.test(birthYear);
+      }
+
+      function isValidPostalCode(postalCode) {
+        // Canadian Postal Code Regex
+        return /^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z][ -]?\d[ABCEGHJ-NPRSTV-Z]\d$/i.test(postalCode);
+      }
+    });
+  </script>
+</head>
+<body>
+
+  <form id="signupForm">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+    <span class="error" id="usernameError"></span><br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+    <span class="error" id="passwordError"></span><br>
+
+    <label for="repassword">Re-enter Password:</label>
+    <input type="password" id="repassword" name="repassword" required>
+    <span class="error" id="repasswordError"></span><br>
+
+    <label for="birthYear">Birth Year:</label>
+    <input type="text" id="birthYear" name="birthYear" required>
+    <span class="error" id="birthYearError"></span><br>
+
+    <label for="postalCode">Postal Code:</label>
+    <input type="text" id="postalCode" name="postalCode" required>
+    <span class="error" id="postalCodeError"></span><br>
+
+    <input type="submit" value="Sign Up">
+  </form>
+
+</body>
+</html>
